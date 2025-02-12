@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 # 命名空间
-appname = 'cow'
+app_name = 'cow'
 
 # 路由
 urlpatterns = [

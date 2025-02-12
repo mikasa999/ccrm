@@ -7,5 +7,5 @@ app_name = "orders"
 #路由
 urlpatterns = [
     # 订单列表
-    path("list/", views.orders_list, name="order_list"),
+    path("list/", views.orders_list, name="orders_list"),
 ]

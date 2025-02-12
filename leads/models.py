@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Lead(models.Model):
+class Leads(models.Model):
     # 联系人
     contact_person = models.CharField(max_length=20)
     # 电话

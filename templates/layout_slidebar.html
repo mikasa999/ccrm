@@ -162,31 +162,31 @@
           <div class="dropdown-menu show" data-bs-popper="static">
             <div class="dropdown-menu-columns">
               <div class="dropdown-menu-column">
-                <a class="dropdown-item" href="http://127.0.0.1:8000/leads/list/">
+                <a class="dropdown-item" href="{% url 'leads:leads_list' %}">
                   线索池
                 </a>
-                <a class="dropdown-item" href="./accordion.html">
+                <a class="dropdown-item" href="{% url 'leads:leads_list' %}">
                   商机
                 </a>
-                <a class="dropdown-item" href="./blank.html">
+                <a class="dropdown-item" href="{% url 'leads:leads_list' %}">
                   公海池
                 </a>
-                <a class="dropdown-item" href="http://127.0.0.1:8000/customer/list/">
+                <a class="dropdown-item" href="{% url 'customer:customer_list' %}">
                   客户
                 </a>
-                <a class="dropdown-item" href="http://127.0.0.1:8000/orders/list/">
+                <a class="dropdown-item" href="{% url 'orders:orders_list' %}">
                   订单
                 </a>
-                <a class="dropdown-item" href="http://127.0.0.1:8000/department/list/">
+                <a class="dropdown-item" href="{% url 'department:department_list' %}">
                   部门
                 </a>
-                <a class="dropdown-item" href="http://127.0.0.1:8000/cow/list/">
+                <a class="dropdown-item" href="{% url 'cow:cow_list' %}">
                   员工
                 </a>
-                <a class="dropdown-item" href="http://127.0.0.1:8000/privileges/list/">
+                <a class="dropdown-item" href="{% url 'privileges:privileges_list' %}">
                   权限
                 </a>
-                <a class="dropdown-item" href="http://127.0.0.1:8000/sysetting/list/">
+                <a class="dropdown-item" href="{% url 'sysetting:sysetting_list' %}">
                   设置
                 </a>
               </div>
