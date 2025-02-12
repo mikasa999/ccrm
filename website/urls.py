@@ -6,6 +6,8 @@ app_name = 'website'
 
 # 路由
 urlpatterns = [
+    # 空字符串
+    path("", include("leads.urls")),
     # 后台管理
     path("admin/", admin.site.urls),
     # 线索管理

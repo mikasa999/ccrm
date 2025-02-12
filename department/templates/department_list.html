@@ -5,17 +5,17 @@
 <div class="col-12">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">标题</h3>
+            <h3 class="card-title">这里添加分配，批量删除等按钮</h3>
         </div>
-        <div class="card-body border-bottom py-3">
-            <div class="d-flex">
-                <div class="col-6 col-sm-4 col-md-2 col-xl-1 py-3">
-                    <a href="#" class="btn btn-danger w-100">
-                      批量删除
-                    </a>
-                </div>
-            </div>
-        </div>
+<!--        <div class="card-body border-bottom py-3">-->
+<!--            <div class="d-flex">-->
+<!--                <div class="col-6 col-sm-4 col-md-2 col-xl-1 py-3">-->
+<!--                    <a href="#" class="btn btn-danger w-100">-->
+<!--                      批量删除-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="table-responsive">
             <table class="table card-table table-vcenter text-nowrap datatable">
                 <thead>
@@ -56,4 +56,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block modal_add %}
+{% include 'modal_add_department.html' %}
 {% endblock %}

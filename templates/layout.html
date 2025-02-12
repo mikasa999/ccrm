@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Mikasa</title>
+    <title>{{ page_title }}-MiksaCrm</title>
     <!-- CSS 文件 -->
     {% include 'layout_css.html' %}
 
@@ -30,11 +30,11 @@
                 <div class="row g-2 align-items-center">
                     <div class="col">
                         <!-- Page pre-title -->
-                        <div class="page-pretitle">
-                            首页
-                        </div>
+<!--                        <div class="page-pretitle">-->
+<!--                            首页-->
+<!--                        </div>-->
                         <h2 class="page-title">
-                            当前页
+                            {{ page_title }}
                         </h2>
                     </div>
                     <!-- Page title actions -->
@@ -56,7 +56,7 @@
                                     <path d="M12 5l0 14"/>
                                     <path d="M5 12l14 0"/>
                                 </svg>
-                                创建新线索
+                                新增{{ page_heading }}
                             </a>
                             <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
                                data-bs-target="#modal-report" aria-label="Create new report">
@@ -94,7 +94,7 @@
 </div>
 
 <!-- 模态框 -->
-{% block modal %}{% endblock %}
+{% block modal_add %}{% endblock %}
 
 <!-- 底部js文件-->
 {% include 'layout_bottom_js.html' %}
