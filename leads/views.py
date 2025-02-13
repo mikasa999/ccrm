@@ -1,8 +1,10 @@
 from django.shortcuts import render, HttpResponse
 
+
 # 线索列表
 leads_list_content = {
-    "title": "线索管理列表",
+    "page_title": "线索池列表",
+    "page_heading": "线索",
 }
 
 

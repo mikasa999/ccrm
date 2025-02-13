@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "sysetting",
     "orders",
     "customer",
+    "dashboard",
 ]
 
 MIDDLEWARE = [

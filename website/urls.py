@@ -6,8 +6,8 @@ app_name = 'website'
 
 # 路由
 urlpatterns = [
-    # 空字符串
-    path("", include("leads.urls")),
+    # 仪表盘
+    path("dashboard/", include("dashboard.urls")),
     # 后台管理
     path("admin/", admin.site.urls),
     # 线索管理
@@ -24,7 +24,6 @@ urlpatterns = [
     path("orders/", include("orders.urls")),
     # 客户
     path("customer/", include("customer.urls")),
-    
 ]
 
 
