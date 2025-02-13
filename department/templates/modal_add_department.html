@@ -27,7 +27,7 @@
         <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
           退出
         </a>
-        <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+        <button type="button" id="submit_button" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
           提交
         </button>
       </div>
@@ -35,3 +35,35 @@
   </div>
 </div>
 </form>
+
+<!--异步提交-->
+<script>
+    $(document).ready(function () {
+        // 给提交按钮绑定点击事件
+        $('#submit_button').click(function () {
+            // 获取表单数据
+            var formData = $('#department_add_form').serialize();
+            // 获取 CSRF 令牌
+            var csrftoken = $('input[name=csrfmiddlewaretoken]').val();
+
+            // 发起 AJAX 请求
+            $.ajax({
+                url: "{% url 'department:department_add' %}",
+                type: 'POST',
+                data: formData,
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                success: function (response) {
+                    // 请求成功时的处理逻辑
+                    alert('部门添加成功！');
+                    // 可以在这里添加更多逻辑，比如刷新列表等
+                },
+                error: function (error) {
+                    // 请求失败时的处理逻辑
+                    alert('部门添加失败：' + error.responseJSON.message);
+                }
+            });
+        });
+    });
+</script>
