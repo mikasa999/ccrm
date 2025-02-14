@@ -1,6 +1,6 @@
 <form id="department_update_form" action="" method="post">
   {% csrf_token %}
-<div class="modal modal-blur fade" id="modal-report-update" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="modal-update-department" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -8,17 +8,18 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <input type="hidden" id="update-department-id">
         <div class="row">
           <div class="col-lg-6">
             <div class="mb-3">
-              <label class="form-label">部门</label>
-              <input type="text" name="department_name" class="form-control">
+              <label class="form-label">部门名称</label>
+              <input type="text" id="update-department-name" name="department_name" class="form-control">
             </div>
           </div>
           <div class="col-lg-6">
             <div class="mb-3">
               <label class="form-label">部门编码</label>
-              <input type="text" name="department_code" class="form-control">
+              <input type="text" id="update-department-code" name="department_code" class="form-control">
             </div>
           </div>
         </div>
@@ -27,7 +28,7 @@
         <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
           退出
         </a>
-        <button type="button" id="submit_button_update" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+        <button type="button" onclick="updateDepartment()" id="submit-button-update" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
           提交
         </button>
       </div>

@@ -27,3 +27,53 @@ def get_department_data(request):
         })
     return JsonResponse({'departments': data})
 
+
+# 新增：添加部门
+@csrf_exempt
+def add_department(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        department_name = data.get('department_name')
+        department_code = data.get('department_code')
+        try:
+            Department.objects.create(department_name=department_name, department_code=department_code)
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+
+# 新增：修改部门
+@csrf_exempt
+def update_department(request, department_id):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        department_name = data.get('department_name')
+        department_code = data.get('department_code')
+        try:
+            department = Department.objects.get(id=department_id)
+            department.department_name = department_name
+            department.department_code = department_code
+            department.save()
+            return JsonResponse({'status': 'success'})
+        except Department.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Department not found'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+
+# 新增：删除部门
+@csrf_exempt
+def delete_department(request, department_id):
+    if request.method == 'POST':
+        try:
+            department = Department.objects.get(id=department_id)
+            department.delete()
+            return JsonResponse({'status': 'success'})
+        except Department.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Department not found'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+

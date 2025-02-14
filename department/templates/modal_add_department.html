@@ -11,14 +11,14 @@
         <div class="row">
           <div class="col-lg-6">
             <div class="mb-3">
-              <label class="form-label">部门</label>
-              <input type="text" name="department_name" class="form-control">
+              <label class="form-label">部门名称</label>
+              <input type="text" id="add-department-name" name="department_name" class="form-control">
             </div>
           </div>
           <div class="col-lg-6">
             <div class="mb-3">
               <label class="form-label">部门编码</label>
-              <input type="text" name="department_code" class="form-control">
+              <input type="text" id="add-department-code" name="department_code" class="form-control">
             </div>
           </div>
         </div>
@@ -27,7 +27,7 @@
         <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
           退出
         </a>
-        <button type="button" id="submit_button_add" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+        <button type="button" id="submit-button-add" class="btn btn-primary ms-auto" onclick="addDepartment()" data-bs-dismiss="modal">
           提交
         </button>
       </div>
