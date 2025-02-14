@@ -1,0 +1,26 @@
+<script>
+    // 异步加载部门数据
+    function loadDepartmentData() {
+        fetch('{% url "department:get_department_data" %}')
+           .then(response => response.json())
+           .then(data => {
+                const tableBody = document.getElementById('department-table-body');
+                tableBody.innerHTML = ''; // 清空表格内容
+                data.departments.forEach(department => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice"></td>
+                        <td>${department.department_name}</td>
+                        <td>${department.department_code}</td>
+                        <td><a href="#" data-bs-toggle="modal" data-bs-target="#modal-report-update"><i class="ti ti-edit"></i></a></td>
+                        <td><a href="#"><i style="color:red;" class="ti ti-archive"></i></a></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+           .catch(error => console.error('Error:', error));
+    }
+
+    // 页面加载完成后执行异步加载
+    window.addEventListener('load', loadDepartmentData);
+</script>

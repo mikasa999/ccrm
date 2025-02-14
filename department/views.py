@@ -15,3 +15,15 @@ department_list_content = {
 def department_list(request):
     return render(request, "department_list.html", department_list_content)
 
+# 获取部门数据库数据，并返回为JSON数据
+def get_department_data(request):
+    departments = Department.objects.all()
+    data = []
+    for department in departments:
+        data.append({
+            'id': department.id,
+            'department_name': department.department_name,
+            'department_code': department.department_code,
+        })
+    return JsonResponse({'departments': data})
+

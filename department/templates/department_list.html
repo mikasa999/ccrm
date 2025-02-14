@@ -23,25 +23,13 @@
                         <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox"
                                 aria-label="Select all invoices"></th>
                         <th>部门名称</th>
-                        <th>部门负责人</th>
-                        <th>部门员工</th>
                         <th>部门编码</th>
                         <th>修改</th>
                         <th>删除</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td><input class="form-check-input m-0 align-middle" type="checkbox"
-                                aria-label="Select invoice"></td>
-                        <td>悦熙妍</td>
-                        <td>贾总</td>
-                        <td>2人</td>
-                        <td>JMH001</td>
-                        <td><a href="#"  data-bs-toggle="modal"
-                               data-bs-target="#modal-report-update"><i class="ti ti-edit"></i></a></td>
-                        <td><a href="www.baidu.com"><i style="color:red;" class="ti ti-archive"></i></a></td>
-                    </tr>
+                <tbody id="department-table-body">
+                     <!-- 这里的数据将通过AJAX异步加载 -->
                 </tbody>
             </table>
         </div>
@@ -49,7 +37,13 @@
 </div>
 {% endblock %}
 
+<!--加载模态框-->
 {% block modal_add %}
 {% include 'modal_add_department.html' %}
 {% include 'modal_update_department.html' %}
+{% endblock %}
+
+<!--加载自定义的js，主要是ajax相关的-->
+{% block mikasa_js %}
+{% include 'mikasa_js.html' %}
 {% endblock %}
