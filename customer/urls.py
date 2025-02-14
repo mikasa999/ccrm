@@ -7,5 +7,5 @@ app_name = "customer"
 # 路由
 urlpatterns = [
     # 客户管理 列表
-    path("list/", views.customer_list, name="customer_list"),
+    path("", views.customer_list, name="customer_list"),
 ]

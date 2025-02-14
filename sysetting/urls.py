@@ -6,5 +6,5 @@ app_name = "sysetting"
 # 路由
 urlpatterns = [
     # 系统设置 列表
-    path("list/", views.sysetting_list, name="sysetting_list")
+    path("", views.sysetting_list, name="sysetting_list")
 ]

@@ -6,5 +6,5 @@ app_name = 'privileges'
 
 urlpatterns = [
     # 权限 列表页
-    path("list/", views.privileges_list, name='privileges_list'),
+    path("", views.privileges_list, name='privileges_list'),
 ]

@@ -8,5 +8,5 @@ app_name = "dashboard"
 # 路由
 urlpatterns = [
     # 仪表盘页面
-    path("list/", views.dashboard_list, name="dashboard_list")
+    path("", views.dashboard_list, name="dashboard_list")
 ]
