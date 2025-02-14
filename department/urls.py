@@ -10,7 +10,5 @@ app_name = 'department'
 urlpatterns = [
     # 部门列表
     path('', views.department_list, name='department_list'),
-    # 部门添加
-    path('add/', views.department_add, name='department_add'),
 ]
 
