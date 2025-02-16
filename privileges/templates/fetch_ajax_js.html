@@ -1,0 +1,151 @@
+<script>
+
+
+/*
+说明：要替换的内容：
+privileges 替换为app命名空间名称
+Privileges 替换为app名称，首字母大写
+*/
+
+
+    // 异步加载数据库数据
+    function loadAppData() {
+        fetch('{% url "privileges:get_data" %}')
+           .then(response => response.json())
+           .then(data => {
+                const tableBody = document.getElementById('app-table-body');
+                tableBody.innerHTML = ''; // 清空表格内容
+                data.results.forEach(result => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice"></td>
+                        <td>${result.privileges_name}</td>
+                        <td>${result.privileges_code}</td>
+                        <td><a href="#" data-bs-toggle="modal" data-bs-target="#modal-update-app" onclick="prepareUpdateModal(${result.privileges_id}, '${result.privileges_name}', '${result.privileges_code}')"><i class="ti ti-edit"></i></a></td>
+                        <td><a href="#" onclick="deleteAppData(${result.privileges_id})"><i style="color:red;" class="ti ti-archive"></i></a></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+           .catch(error => console.error('Error:', error));
+    }
+
+    // 页面加载完成后执行异步加载
+    window.addEventListener('load', loadAppData);
+
+    // 准备修改模态框
+    function prepareUpdateModal(privileges_id, privileges_name, privileges_code) {
+        const modal = document.getElementById('modal-update-app');
+        const privilegesInput = modal.querySelector('#update-privileges-name');
+        const appCodeInput = modal.querySelector('#update-privileges-code');
+        const appIdInput = modal.querySelector('#update-privileges-id');
+
+        privilegesInput.value = privileges_name;
+        appCodeInput.value = privileges_code;
+        appIdInput.value = privileges_id;
+    }
+
+    // 添加部门
+    function addAppData() {
+        const privileges_Name = document.getElementById('add-privileges-name').value;
+        const privileges_Code = document.getElementById('add-privileges-code').value;
+
+        fetch('{% url "privileges:add_data" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                'field_name': privileges_Name,
+                'field_code': privileges_Code
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // 关闭模态框
+                const modal = document.getElementById('modal-add-app');
+                const modalInstance = bootstrap.Modal.getInstance(modal);
+                modalInstance.hide();
+                // 刷新部门数据
+                loadAppData();
+            } else {
+                alert('添加失败：' + data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // 修改部门
+    function updateAppData() {
+        const privileges_Id = document.getElementById('update-privileges-id').value;
+        const privileges_Name = document.getElementById('update-privileges-name').value;
+        const privileges_Code = document.getElementById('update-privileges-code').value;
+
+        fetch(`{% url "privileges:update_data" 0 %}`.replace('0', privileges_Id), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                'field_name': privileges_Name,
+                'field_code': privileges_Code
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // 关闭模态框
+                const modal = document.getElementById('modal-update-app');
+                const modalInstance = bootstrap.Modal.getInstance(modal);
+                modalInstance.hide();
+                // 刷新部门数据
+                loadAppData();
+            } else {
+                alert('修改失败：' + data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // 删除部门
+    function deleteAppData(privileges_id) {
+        if (confirm('确定要删除该部门吗？')) {
+            fetch(`{% url "privileges:delete_data" 0 %}`.replace('0', privileges_id), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // 刷新部门数据
+                    loadAppData();
+                } else {
+                    alert('删除失败：' + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    }
+
+    // 获取 CSRF Token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie!== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>

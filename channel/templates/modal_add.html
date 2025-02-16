@@ -1,0 +1,37 @@
+<form id="add_{{ appName }}_form" action="" method="post">
+  {% csrf_token %}
+<div class="modal modal-blur fade" id="modal-add-app" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">新增{{ page_heading }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="mb-3">
+              <label class="form-label">渠道来源名称</label>
+              <input type="text" id="add-{{ appName }}-name" name="" class="form-control">
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="mb-3">
+              <label class="form-label">渠道来源编码</label>
+              <input type="text" id="add-{{ appName }}-code" name="" class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+          退出
+        </a>
+        <button type="button" onclick="addAppData()" id="submit-button-add" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+          提交
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>

@@ -1,79 +1,88 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse
 from .models import Department
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-# 部门列表
-department_list_content = {
-    "page_title": "部门列表",
-    "page_heading": "部门",
+
+"""
+说明：要替换的内容
+department 替换为当前app的名称
+Department 替换为当前app的名称，首字母大写
+"""
+
+
+# 页面标题
+title = {
+    "page_title": "XX列表",
+    "page_heading": "XX",
+    "appName": "department",
 }
 
 
-# 部门列表
-def department_list(request):
-    return render(request, "department_list.html", department_list_content)
+# 权限列表页
+def index(request):
+    return render(request, "index.html", title)
 
-# 获取部门数据库数据，并返回为JSON数据
-def get_department_data(request):
-    departments = Department.objects.all()
+
+# 获取数据库数据，返回json数据
+def get_data(request):
+    results = Department.objects.all()
     data = []
-    for department in departments:
+    for result in results:
         data.append({
-            'id': department.id,
-            'department_name': department.department_name,
-            'department_code': department.department_code,
+            'department_id': result.id,
+            'department_name': result.department_name,
+            'department_code': result.department_code,
         })
-    return JsonResponse({'departments': data})
+    return JsonResponse({'results': data})
 
 
-# 新增：添加部门
+# 新增：添加
 @csrf_exempt
-def add_department(request):
+def add_data(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        department_name = data.get('department_name')
-        department_code = data.get('department_code')
+        name = data.get('field_name')
+        code = data.get('field_code')
         try:
-            Department.objects.create(department_name=department_name, department_code=department_code)
+            Department.objects.create(department_name=name, department_code=code)
             return JsonResponse({'status': 'success'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)})
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
 
-# 新增：修改部门
+# 新增：修改权限
 @csrf_exempt
-def update_department(request, department_id):
+def update_data(request, arguments_id):
     if request.method == 'POST':
         data = json.loads(request.body)
-        department_name = data.get('department_name')
-        department_code = data.get('department_code')
+        name = data.get('field_name')
+        code = data.get('field_code')
         try:
-            department = Department.objects.get(id=department_id)
-            department.department_name = department_name
-            department.department_code = department_code
-            department.save()
+            results = Department.objects.get(id=arguments_id)
+            results.department_name = name
+            results.department_code = code
+            results.save()
             return JsonResponse({'status': 'success'})
         except Department.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': 'Department not found'})
+            return JsonResponse({'status': 'error', 'message': 'app not found'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)})
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
 
-# 新增：删除部门
+# 新增：删除权限
 @csrf_exempt
-def delete_department(request, department_id):
+def delete_data(request, arguments_id):
     if request.method == 'POST':
         try:
-            department = Department.objects.get(id=department_id)
-            department.delete()
+            results = Department.objects.get(id=arguments_id)
+            results.delete()
             return JsonResponse({'status': 'success'})
         except Department.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': 'Department not found'})
+            return JsonResponse({'status': 'error', 'message': 'app not found'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)})
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
-

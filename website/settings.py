@@ -26,14 +26,28 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # 线索
     "leads",
+    # 部门
     "department",
+    # 员工
     "cow",
+    # 权限
     "privileges",
-    "sysetting",
+    # 订单
     "orders",
+    # 客户
     "customer",
-    "dashboard",
+    # 产品
+    "product",
+    # 业务
+    "business",
+    # 渠道
+    "channel",
+    # 联系组件
+    "component",
+    # 跟进
+    "proceeding",
 ]
 
 MIDDLEWARE = [

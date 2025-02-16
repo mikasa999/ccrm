@@ -29,10 +29,6 @@
             <div class="container-xl">
                 <div class="row g-2 align-items-center">
                     <div class="col">
-                        <!-- Page pre-title -->
-                        <!--                        <div class="page-pretitle">-->
-                        <!--                            首页-->
-                        <!--                        </div>-->
                         <h2 class="page-title">
                             {{ page_title }}
                         </h2>
@@ -46,7 +42,7 @@
                   </a>
                 </span>
                             <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
-                               data-bs-target="#modal-report-add">
+                               data-bs-target="#modal-add-app">
                                 <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                      viewBox="0 0 24 24"
@@ -94,13 +90,13 @@
 </div>
 
 <!-- 模态框 -->
-{% block modal_add %}{% endblock %}
+{% block modal %}{% endblock %}
 
 <!-- 底部js文件-->
 {% include 'layout_bottom_js.html' %}
 
-<!--额外的js，例如ajax相关-->
-{% block mikasa_js %}{% endblock %}
+<!--app中自定义的额外js，例如ajax相关-->
+{% block app_js %}{% endblock %}
 
 </body>
 
