@@ -5,7 +5,7 @@
 <div class="col-12">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">{{title}}</h3>
+            <h3 class="card-title">{{ page_title }}</h3>
         </div>
         <!-- <div class="card-body border-bottom py-3">
             <div class="d-flex">
@@ -23,13 +23,15 @@
                         <th>员工姓名</th>
                         <th>所属部门</th>
                         <th>权限</th>
-                        <th>创建日期</th>
                         <th>线索总量</th>
-                        <th>成交</th>
-                        <th>跟进中</th>
+                        <th>跟进数量</th>
+                        <th>客户数量</th>
                         <th>回退公海</th>
-                        <th>上级</th>
-                        <th>状态</th>
+                        <th>成交数量</th>
+                        <th>首单成交总额</th>
+                        <th>成交总额</th>
+                        <th>修改</th>
+                        <th>删除</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,15 +39,17 @@
                         <td><input class="form-check-input m-0 align-middle" type="checkbox"
                                 aria-label="Select invoice"></td>
                         <td><span class="text-secondary">管长虹</span></td>
-                        <td><a href="tel:13855556689" class="text-reset" tabindex="-1">昕惠普</a></td>
-                        <td>普通员工</td>
-                        <td>2025-02-01</td>
-                        <td>125条</td>
-                        <td>20条</td>
-                        <td>128条</td>
-                        <td>220条</td>
-                        <td><span class="badge bg-success me-1"></span> 沈总</td>
-                        <td>正常</td>
+                        <td><a href="tel:13855556689" class="text-reset" tabindex="-1">昕惠普事业部</a></td>
+                        <td>普通权限</td>
+                        <td>1500</td>
+                        <td>125</td>
+                        <td>20</td>
+                        <td>32</td>
+                        <td>1020</td>
+                        <td>￥50000</td>
+                        <td>￥990000</td>
+                        <td><a href="#" data-bs-toggle="modal" data-bs-target="#modal-update-app"><i class="ti ti-edit"></i></a></td>
+                        <td><a href="#"><i style="color:red;" class="ti ti-archive"></i></a></td>
                     </tr>
                 </tbody>
             </table>
@@ -83,4 +87,15 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+<!--加载模态框-->
+{% block modal %}
+{% include modal_add_name %}
+{% include modal_update_name %}
+{% endblock %}
+
+<!--加载自定义的js，主要是ajax相关的-->
+{% block app_js %}
+
 {% endblock %}

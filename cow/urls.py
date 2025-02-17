@@ -7,5 +7,5 @@ app_name = 'cow'
 # 路由
 urlpatterns = [
     # 员工管理 列表
-    path('', views.cow_list, name='cow_list'),
+    path('', views.index, name='index'),
 ]
