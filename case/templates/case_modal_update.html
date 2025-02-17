@@ -1,4 +1,4 @@
-<form id="update_{{ appName }}_form" action="" method="post">
+<form id="update_{{ modal_app_name }}_form" action="" method="post">
   {% csrf_token %}
 <div class="modal modal-blur fade" id="modal-update-app" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
@@ -8,18 +8,18 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <input type="hidden" id="update-{{ appName }}-id">
+        <input type="hidden" id="update-{{ modal_app_name }}-id">
         <div class="row">
           <div class="col-lg-6">
             <div class="mb-3">
               <label class="form-label">部门名称</label>
-              <input type="text" id="update-{{ appName }}-name" name="" class="form-control">
+              <input type="text" id="update-{{ modal_app_name }}-name" name="" class="form-control">
             </div>
           </div>
           <div class="col-lg-6">
             <div class="mb-3">
               <label class="form-label">部门编码</label>
-              <input type="text" id="update-{{ appName }}-code" name="" class="form-control">
+              <input type="text" id="update-{{ modal_app_name }}-code" name="" class="form-control">
             </div>
           </div>
         </div>

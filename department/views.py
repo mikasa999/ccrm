@@ -14,15 +14,15 @@ Department 替换为当前app的名称，首字母大写
 
 # 页面标题
 title = {
-    "page_title": "XX列表",
-    "page_heading": "XX",
+    "page_title": "部门列表",
+    "page_heading": "部门",
     "appName": "department",
 }
 
 
 # 权限列表页
 def index(request):
-    return render(request, "index.html", title)
+    return render(request, "department_index.html", title)
 
 
 # 获取数据库数据，返回json数据

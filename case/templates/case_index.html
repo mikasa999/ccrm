@@ -39,11 +39,11 @@
 
 <!--加载模态框-->
 {% block modal %}
-{% include 'modal_add.html' %}
-{% include 'modal_update.html' %}
+{% include modal_add_name %}
+{% include modal_update_name %}
 {% endblock %}
 
 <!--加载自定义的js，主要是ajax相关的-->
 {% block app_js %}
-{% include 'fetch_ajax_js.html' %}
+{% include modal_fetch_ajax_js_name %}
 {% endblock %}

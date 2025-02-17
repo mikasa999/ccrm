@@ -22,8 +22,8 @@
                     <tr>
                         <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox"
                                 aria-label="Select all invoices"></th>
-                        <th>产品名称</th>
-                        <th>产品编码</th>
+                        <th>权限名称</th>
+                        <th>权限编码</th>
                         <th>修改</th>
                         <th>删除</th>
                     </tr>
@@ -39,11 +39,11 @@
 
 <!--加载模态框-->
 {% block modal %}
-{% include 'modal_add.html' %}
-{% include 'modal_update.html' %}
+{% include 'privileges_modal_add.html' %}
+{% include 'privileges_modal_update.html' %}
 {% endblock %}
 
 <!--加载自定义的js，主要是ajax相关的-->
 {% block app_js %}
-{% include 'fetch_ajax_js.html' %}
+{% include 'privileges_fetch_ajax_js.html' %}
 {% endblock %}

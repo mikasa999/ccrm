@@ -16,13 +16,16 @@ ModelName 替换为当前app的名称，首字母大写
 title = {
     "page_title": "XX列表",
     "page_heading": "XX",
-    "appName": "appname",
+    "modal_app_name": "appName",
+    "modal_add_name": "appName_modal_all.html",
+    "modal_update_name": "appName_modal_update.html",
+    "modal_fetch_ajax_js_name": "appName_fetch_ajax_js.html"
 }
 
 
 # 权限列表页
 def index(request):
-    return render(request, "index.html", title)
+    return render(request, "appName_index.html", title)
 
 
 # 获取数据库数据，返回json数据

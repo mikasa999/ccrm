@@ -14,15 +14,15 @@ Privileges 替换为当前app的名称，首字母大写
 
 # 页面标题
 title = {
-    "page_title": "XX列表",
-    "page_heading": "XX",
+    "page_title": "权限列表",
+    "page_heading": "权限",
     "appName": "privileges",
 }
 
 
 # 权限列表页
 def index(request):
-    return render(request, "index.html", title)
+    return render(request, "privileges_index.html", title)
 
 
 # 获取数据库数据，返回json数据

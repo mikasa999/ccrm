@@ -14,15 +14,15 @@ Channel 替换为当前app的名称，首字母大写
 
 # 页面标题
 title = {
-    "page_title": "XX列表",
-    "page_heading": "XX",
+    "page_title": "渠道列表",
+    "page_heading": "渠道",
     "appName": "channel",
 }
 
 
 # 权限列表页
 def index(request):
-    return render(request, "index.html", title)
+    return render(request, "channel_index.html", title)
 
 
 # 获取数据库数据，返回json数据
