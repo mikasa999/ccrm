@@ -8,9 +8,10 @@ class Cow(models.Model):
     cow_employee_name = models.CharField(max_length=20, verbose_name='员工姓名')
     # 所属部门，使用外键关联到 Department 模型，当部门被删除时，将员工的部门设置为 NULL
     cow_department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True,
-                                       verbose_name='所属部门')
+                                       verbose_name='所属部门', to_field='department_code')
     # 权限，使用外键关联到 Privilege 模型，当权限被删除时，将员工的权限设置为 NULL
-    cow_privileges = models.ForeignKey(Privileges, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='权限')
+    cow_privileges = models.ForeignKey(Privileges, on_delete=models.SET_NULL, null=True, blank=True,
+                                       verbose_name='权限', to_field='privileges_code')
     # 线索总量，使用正整数类型存储
     cow_leads_total = models.PositiveIntegerField(default=0, verbose_name='线索总量')
     # 跟进数量，使用正整数类型存储

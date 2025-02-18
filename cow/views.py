@@ -3,6 +3,9 @@ from .models import Cow
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from department.models import Department
+from privileges.models import Privileges
+
 
 """
 说明：要替换的内容
@@ -22,4 +25,12 @@ title = {
 
 
 def index(request):
-    return render(request, "cow_index.html", title)
+    # 查询所有部门和权限
+    departments = Department.objects.all()
+    privileges = Privileges.objects.all()
+    context = {
+        'departments': departments,
+        'privileges': privileges,
+        **title
+    }
+    return render(request, "cow_index.html", context)
