@@ -8,4 +8,10 @@ app_name = 'cow'
 urlpatterns = [
     # 员工管理 列表
     path('', views.index, name='index'),
+    # json异步生成
+    path('get_data', views.get_data, name='get_data'),
+    # 添加员工
+    path('add_data', views.add_data, name='add_data'),
+    # 删除员工
+    path('delete_data/<int:cow_id>', views.delete_data, name='delete_data'),
 ]

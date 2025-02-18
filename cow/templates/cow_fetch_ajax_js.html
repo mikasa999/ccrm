@@ -10,7 +10,7 @@ AppName 替换为app名称，首字母大写
 
     // 异步加载数据库数据
     function loadAppData() {
-        fetch('{% url "appName:get_data" %}')
+        fetch('{% url "cow:get_data" %}')
            .then(response => response.json())
            .then(data => {
                 const tableBody = document.getElementById('app-table-body');
@@ -19,10 +19,18 @@ AppName 替换为app名称，首字母大写
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice"></td>
-                        <td>${result.appName_name}</td>
-                        <td>${result.appName_code}</td>
-                        <td><a href="#" data-bs-toggle="modal" data-bs-target="#modal-update-app" onclick="prepareUpdateModal(${result.appName_id}, '${result.appName_name}', '${result.appName_code}')"><i class="ti ti-edit"></i></a></td>
-                        <td><a href="#" onclick="deleteAppData(${result.appName_id})"><i style="color:red;" class="ti ti-archive"></i></a></td>
+                        <td>${result.cow_employee_name}</td>
+                        <td>${result.cow_department}</td>
+                        <td>${result.cow_privileges}</td>
+                        <td>${result.cow_leads_total}</td>
+                        <td>${result.cow_follow_up_count}</td>
+                        <td>${result.cow_customer_count}</td>
+                        <td>${result.cow_returned_to_public_count}</td>
+                        <td>${result.cow_deal_count}</td>
+                        <td>${result.cow_first_deal_total_amount}</td>
+                        <td>${result.cow_total_deal_amount}</td>
+                        <td><a href="#" data-bs-toggle="modal" data-bs-target="#modal-update-app" onclick="prepareUpdateModal(${result.cow_id}, '${result.appName_name}', '${result.appName_code}')"><i class="ti ti-edit"></i></a></td>
+                        <td><a href="#" onclick="deleteAppData(${result.cow_id})"><i style="color:red;" class="ti ti-archive"></i></a></td>
                     `;
                     tableBody.appendChild(row);
                 });
@@ -33,41 +41,33 @@ AppName 替换为app名称，首字母大写
     // 页面加载完成后执行异步加载
     window.addEventListener('load', loadAppData);
 
-    // 准备修改模态框
-    function prepareUpdateModal(appName_id, appName_name, appName_code) {
-        const modal = document.getElementById('modal-update-app');
-        const appNameInput = modal.querySelector('#update-appName-name');
-        const appCodeInput = modal.querySelector('#update-appName-code');
-        const appIdInput = modal.querySelector('#update-appName-id');
 
-        appNameInput.value = appName_name;
-        appCodeInput.value = appName_code;
-        appIdInput.value = appName_id;
-    }
 
     // 添加部门
     function addAppData() {
-        const appName_Name = document.getElementById('add-appName-name').value;
-        const appName_Code = document.getElementById('add-appName-code').value;
+        const cow_employee_name = document.getElementById('cow-employee-name').value;
+        const cow_department = document.getElementById('cow-department').value;
+        const cow_privileges = document.getElementById('cow-privileges').value;
 
-        fetch('{% url "appName:add_data" %}', {
+        fetch('{% url "cow:add_data" %}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCookie('csrftoken')
             },
             body: JSON.stringify({
-                'field_name': appName_Name,
-                'field_code': appName_Code
+                'cow_employee_name': cow_employee_name,
+                'cow_department': cow_department,
+                'cow_privileges': cow_privileges,
             })
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
                 // 关闭模态框
-                const modal = document.getElementById('modal-add-app');
-                const modalInstance = bootstrap.Modal.getInstance(modal);
-                modalInstance.hide();
+                //const modal = document.getElementById('modal-add-app');
+                //const modalInstance = bootstrap.Modal.getInstance(modal);
+                //modalInstance.hide();
                 // 刷新部门数据
                 loadAppData();
             } else {
@@ -77,43 +77,11 @@ AppName 替换为app名称，首字母大写
         .catch(error => console.error('Error:', error));
     }
 
-    // 修改部门
-    function updateAppData() {
-        const appName_Id = document.getElementById('update-appName-id').value;
-        const appName_Name = document.getElementById('update-appName-name').value;
-        const appName_Code = document.getElementById('update-appName-code').value;
-
-        fetch(`{% url "appName:update_data" 0 %}`.replace('0', appName_Id), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken')
-            },
-            body: JSON.stringify({
-                'field_name': appName_Name,
-                'field_code': appName_Code
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                // 关闭模态框
-                const modal = document.getElementById('modal-update-app');
-                const modalInstance = bootstrap.Modal.getInstance(modal);
-                modalInstance.hide();
-                // 刷新部门数据
-                loadAppData();
-            } else {
-                alert('修改失败：' + data.message);
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    }
 
     // 删除部门
-    function deleteAppData(appName_id) {
+    function deleteAppData(cow_id) {
         if (confirm('确定要删除该部门吗？')) {
-            fetch(`{% url "appName:delete_data" 0 %}`.replace('0', appName_id), {
+            fetch(`{% url "cow:delete_data" 0 %}`.replace('0', cow_id), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -132,6 +100,8 @@ AppName 替换为app名称，首字母大写
             .catch(error => console.error('Error:', error));
         }
     }
+
+
 
     // 获取 CSRF Token
     function getCookie(name) {

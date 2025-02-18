@@ -34,23 +34,8 @@
                         <th>删除</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td><input class="form-check-input m-0 align-middle" type="checkbox"
-                                aria-label="Select invoice"></td>
-                        <td><span class="text-secondary">管长虹</span></td>
-                        <td><a href="tel:13855556689" class="text-reset" tabindex="-1">昕惠普事业部</a></td>
-                        <td>普通权限</td>
-                        <td>1500</td>
-                        <td>125</td>
-                        <td>20</td>
-                        <td>32</td>
-                        <td>1020</td>
-                        <td>￥50000</td>
-                        <td>￥990000</td>
-                        <td><a href="#" data-bs-toggle="modal" data-bs-target="#modal-update-app"><i class="ti ti-edit"></i></a></td>
-                        <td><a href="#"><i style="color:red;" class="ti ti-archive"></i></a></td>
-                    </tr>
+                <tbody id="app-table-body">
+                     <!-- 这里的数据将通过AJAX异步加载 -->
                 </tbody>
             </table>
         </div>
@@ -97,5 +82,5 @@
 
 <!--加载自定义的js，主要是ajax相关的-->
 {% block app_js %}
-
+{% include modal_fetch_ajax_js_name %}
 {% endblock %}
