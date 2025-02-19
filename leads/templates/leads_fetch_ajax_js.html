@@ -1,5 +1,43 @@
 <script>
 
+    // 异步加载数据库数据
+    function loadAppData() {
+        fetch('{% url "leads:get_data" %}')
+           .then(response => response.json())
+           .then(data => {
+                const tableBody = document.getElementById('app-table-body');
+                tableBody.innerHTML = ''; // 清空表格内容
+                data.results.forEach(result => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice"></td>
+                        <td>${result.contact_person}</td>
+                        <td>${result.contact_phone}</td>
+                        <td>${result.product_name}</td>
+                        <td>${result.business_name}</td>
+                        <td>${result.lead_creation_time}</td>
+                        <td>${result.lead_allocation_time}</td>
+                        <td>${result.department_name}</td>
+                        <td>${result.channel_name}</td>
+                        <td>${result.component_name}</td>
+                        <td>${result.consultation_content}</td>
+                        <td>${result.cow_name}</td>
+                        <td>${result.proceeding_name}</td>
+                        <td>${result.follow_new_record}</td>
+                        <td>${result.follow_new_time}</td>
+                        <td><a href="#" data-bs-toggle="modal" data-bs-target="#modal-update-app" onclick="prepareUpdateModal(${result.lead_id}, '${result.appName_name}', '${result.appName_code}')"><i class="ti ti-clipboard-copy"></i></a></td>
+                        <td><a href="#" data-bs-toggle="modal" data-bs-target="#modal-update-app" onclick="prepareUpdateModal(${result.lead_id}, '${result.appName_name}', '${result.appName_code}')"><i class="ti ti-edit"></i></a></td>
+                        <td><a href="#" onclick="deleteAppData(${result.lead_id})"><i style="color:red;" class="ti ti-archive"></i></a></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+           .catch(error => console.error('Error:', error));
+    }
+
+    // 页面加载完成后执行异步加载
+    window.addEventListener('load', loadAppData);
+
 
     // 添加线索
     function addAppData() {
@@ -12,7 +50,7 @@
         const component_name = document.getElementById('leads-component-name').value;
         const consultation_content = document.getElementById('leads-consultation-content').value;
 
-        fetch('{% url "cow:add_data" %}', {
+        fetch('{% url "leads:add_data" %}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -33,17 +71,37 @@
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                // 关闭模态框
-                //const modal = document.getElementById('modal-add-app');
-                //const modalInstance = bootstrap.Modal.getInstance(modal);
-                //modalInstance.hide();
                 // 刷新部门数据
-                //loadAppData();
+                loadAppData();
             } else {
                 alert('添加失败：' + data.message);
             }
         })
         .catch(error => console.error('Error:', error));
+    }
+
+
+    // 删除线索
+    function deleteAppData(lead_id) {
+        if (confirm('确定要删除该部门吗？')) {
+            fetch(`{% url "leads:delete_data" 0 %}`.replace('0', lead_id), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // 刷新部门数据
+                    loadAppData();
+                } else {
+                    alert('删除失败：' + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
     }
 
 

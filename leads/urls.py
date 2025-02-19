@@ -15,8 +15,8 @@ urlpatterns = [
     # 添加线索
     path('add_data', views.add_data, name='add_data'),
     # 删除线索
-    path('delete_data/<int:cow_id>', views.delete_data, name='delete_data'),
+    path('delete_data/<int:lead_id>', views.delete_data, name='delete_data'),
     # 修改线索
-    path('update_data/<int:cow_id>', views.update_data, name='update_data'),
+    path('update_data/<int:lead_id>', views.update_data, name='update_data'),
 ]
 

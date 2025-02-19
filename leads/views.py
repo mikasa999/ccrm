@@ -11,6 +11,18 @@ from component.models import Component
 from cow.models import Cow
 from proceeding.models import Proceeding
 from leads.models import Leads
+import secrets
+import string
+
+
+# 一个随机生成20位字符串的函数
+def generate_secure_random_string(length=20):
+    # 定义包含所有字母（大小写）和数字的字符集
+    all_characters = string.ascii_letters + string.digits
+    # 使用secrets模块从字符集中随机选择字符，组成指定长度的字符串
+    random_string = ''.join(secrets.choice(all_characters) for _ in range(length))
+    return random_string
+
 
 # 页面标题
 title = {
@@ -43,11 +55,42 @@ def index(request):
         'proceeding': proceeding,
         **title
     }
-    return render(request, "cow_index.html", context)
+    return render(request, "leads_index.html", context)
 
 
 def get_data(request):
-    pass
+    results = Leads.objects.all()
+    data = []
+
+    for result in results:
+        if result.lead_status == 1:  # 线索状态=1，则是新线索
+            # 获取部门名称和权限名称
+            product_name = result.product_name.product_name if result.product_name else None
+            business_name = result.business_name.business_name if result.business_name else None
+            department_name = result.department_name.department_name if result.department_name else None
+            channel_name = result.channel_name.channel_name if result.channel_name else None
+            component_name = result.component_name.component_name if result.component_name else None
+            cow_name = result.cow_name.cow_employee_name if result.cow_name else None
+            proceeding_name = result.proceeding_name.proceeding_name if result.proceeding_name else None
+
+            data.append({
+                'lead_id': result.id,
+                'contact_person': result.contact_person,
+                'contact_phone': result.contact_phone,
+                'product_name': product_name,
+                'business_name': business_name,
+                'lead_creation_time': result.lead_creation_time,
+                'lead_allocation_time': result.lead_allocation_time,
+                'department_name': department_name,
+                'channel_name': channel_name,
+                'component_name': component_name,
+                'consultation_content': result.consultation_content,
+                'cow_name': cow_name,
+                'proceeding_name': proceeding_name,
+                'follow_new_record': result.follow_new_record,
+                'follow_new_time': result.follow_new_time,
+            })
+    return JsonResponse({'results': data})
 
 
 def add_data(request):
@@ -61,6 +104,7 @@ def add_data(request):
         channel_name = data.get('channel_name')
         component_name = data.get('component_name')
         consultation_content = data.get('consultation_content')
+        lead_code = generate_secure_random_string()
 
         try:
             # 根据代码获取实例
@@ -80,6 +124,7 @@ def add_data(request):
                 channel_name=channel_name,
                 component_name=component_name,
                 consultation_content=consultation_content,
+                lead_code=lead_code,
             )
             return JsonResponse({'status': 'success'})
         except Product.DoesNotExist:
@@ -101,7 +146,16 @@ def update_data(request):
     pass
 
 
-def delete_data(request):
-    pass
+def delete_data(request, lead_id):
+    if request.method == 'POST':
+        try:
+            results = Leads.objects.get(id=lead_id)
+            results.delete()
+            return JsonResponse({'status': 'success'})
+        except Leads.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'app not found'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
 
