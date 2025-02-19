@@ -9,6 +9,14 @@ app_name = 'leads'
 # 路由
 urlpatterns = [
     # 线索管理 列表 
-    path('', views.leads_list, name='leads_list'),
+    path('', views.index, name='index'),
+    # 线索异步生成json
+    path('get_data', views.get_data, name='get_data'),
+    # 添加线索
+    path('add_data', views.add_data, name='add_data'),
+    # 删除线索
+    path('delete_data/<int:cow_id>', views.delete_data, name='delete_data'),
+    # 修改线索
+    path('update_data/<int:cow_id>', views.update_data, name='update_data'),
 ]
 

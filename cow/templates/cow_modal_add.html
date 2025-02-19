@@ -17,6 +17,18 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="mb-3">
+                                <label class="form-label">用户名</label>
+                                <input type="text" id="{{ modal_app_name }}-username" name="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">密码</label>
+                                <input type="password" id="{{ modal_app_name }}-password" name="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
                                 <label class="form-label">所属部门</label>
                                 <select class="form-select" id="{{ modal_app_name }}-department">
                                     {% for department in departments %}

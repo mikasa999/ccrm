@@ -1,0 +1,65 @@
+<script>
+
+
+    // 添加线索
+    function addAppData() {
+        const contact_person = document.getElementById('leads-contact-person').value;
+        const contact_phone = document.getElementById('leads-contact-phone').value;
+        const product_name = document.getElementById('leads-product-name').value;
+        const business_name = document.getElementById('leads-business-name').value;
+        const department_name = document.getElementById('leads-department-name').value;
+        const channel_name = document.getElementById('leads-channel-name').value;
+        const component_name = document.getElementById('leads-component-name').value;
+        const consultation_content = document.getElementById('leads-consultation-content').value;
+
+        fetch('{% url "cow:add_data" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                'contact_person': contact_person,
+                'contact_phone': contact_phone,
+                'product_name': product_name,
+                'business_name': business_name,
+                'department_name': department_name,
+                'channel_name': channel_name,
+                'component_name': component_name,
+                'consultation_content': consultation_content,
+            })
+        })
+
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // 关闭模态框
+                //const modal = document.getElementById('modal-add-app');
+                //const modalInstance = bootstrap.Modal.getInstance(modal);
+                //modalInstance.hide();
+                // 刷新部门数据
+                //loadAppData();
+            } else {
+                alert('添加失败：' + data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+
+    // 获取 CSRF Token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie!== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>

@@ -5,7 +5,7 @@
 <div class="col-12">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">{{ title }}</h3>
+            <h3 class="card-title">{{ page_title }}</h3>
         </div>
         <!-- <div class="card-body border-bottom py-3">
             <div class="d-flex">
@@ -25,7 +25,7 @@
                         <th>产品</th>
                         <th>业务</th>
                         <th>线索创建时间</th>
-                         <th>线索分配时间</th>
+                         <th>线索首领时间</th>
                         <th>部门</th>
                         <th>线索来源</th>
                         <th>首次联络工具</th>
@@ -39,28 +39,8 @@
                         <th>删除</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td><input class="form-check-input m-0 align-middle" type="checkbox"
-                                aria-label="Select invoice"></td>
-                        <td>张三</td>
-                        <td>13855556689</td>
-                        <td>皮肤敷料</td>
-                        <td>oem</td>
-                        <td>2025-01-02 10:32</td>
-                        <td>2025-01-02 10:55</td>
-                        <td>御茵美</td>
-                        <td>环球</td>
-                        <td>电话</td>
-                        <td>做公立医院，找挂网的产品</td>
-                        <td>管长虹</td>
-                        <td><span class="badge bg-success me-1"></span>意向跟进中</td>
-                        <td>联系了客户，已发样品，等回复</td>
-                        <td>2025-02-10 17:56</td>
-                        <td><i class="ti ti-article"></i></td>
-                        <td><i style="color:green;" class="ti ti-edit"></i></td>
-                        <td><a href="https://www.baidu.com"><i style="color:red;" class="ti ti-archive"></i></a></td>
-                    </tr>
+                <tbody id="app-table-body">
+                    <!-- 这里的数据将通过AJAX异步加载 -->
                 </tbody>
             </table>
         </div>
@@ -99,7 +79,13 @@
 </div>
 {% endblock %}
 
-<!--模态框 线索新增表单-->
-{% block modal_add %}
-{% include 'modal_add_leads.html' %}
+<!--加载模态框-->
+{% block modal %}
+{% include modal_add_name %}
+{% include modal_update_name %}
+{% endblock %}
+
+<!--加载自定义的js，主要是ajax相关的-->
+{% block app_js %}
+{% include modal_fetch_ajax_js_name %}
 {% endblock %}

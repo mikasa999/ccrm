@@ -1,6 +1,7 @@
 from django.db import models
-from department.models import Department  # 假设部门模型在 department 应用中
-from privileges.models import Privileges  # 引入权限模型
+from django.contrib.auth.hashers import make_password, check_password
+from department.models import Department  # 部门模型
+from privileges.models import Privileges  # 权限模型
 
 
 class Cow(models.Model):
@@ -27,6 +28,24 @@ class Cow(models.Model):
                                                       verbose_name='首单成交总额')
     # 成交总额，使用 Decimal 类型存储，最多保留0位小数
     cow_total_deal_amount = models.DecimalField(max_digits=10, decimal_places=0, default=0, verbose_name='成交总额')
+    # 账号和密码字段
+    username = models.CharField(max_length=30, unique=True, verbose_name='用户名')
+    password = models.CharField(max_length=128, verbose_name='密码')
+
+    # set_password 方法：借助 make_password 函数对明文密码进行加密，然后将加密后的密码存储到 password 字段。
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+
+    # check_password 方法：使用 check_password 函数验证输入的明文密码和存储的加密密码是否匹配。
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password)
+
+    # 在 save 方法里，先判断是新创建的实例，还是密码有变更。如果满足条件，就调用 set_password 方法对密码进行加密，然后再调用父类的 save 方法保存实例。
+    def save(self, *args, **kwargs):
+        # 检查是否是新创建的实例或者密码有变更
+        if not self.pk or self.password != Cow.objects.get(pk=self.pk).password if self.pk else None:
+            self.set_password(self.password)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.cow_employee_name

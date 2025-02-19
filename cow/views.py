@@ -59,6 +59,7 @@ def get_data(request):
             'cow_deal_count': result.cow_deal_count,
             'cow_first_deal_total_amount': result.cow_first_deal_total_amount,
             'cow_total_deal_amount': result.cow_total_deal_amount,
+            'username': result.username,
         })
     return JsonResponse({'results': data})
 
@@ -71,6 +72,12 @@ def add_data(request):
         cow_employee_name = data.get('cow_employee_name')
         cow_department_code = data.get('cow_department')  # 传入部门代码
         cow_privileges_code = data.get('cow_privileges')  # 传入权限代码
+        username = data.get('username')
+        password = data.get('password')
+
+        # 如果密码为空，使用默认值
+        if not password:
+            password = '123456'
 
         try:
             # 根据部门代码获取部门实例
@@ -82,7 +89,9 @@ def add_data(request):
             Cow.objects.create(
                 cow_employee_name=cow_employee_name,
                 cow_department=department,
-                cow_privileges=privileges
+                cow_privileges=privileges,
+                username=username,
+                password=password
             )
             return JsonResponse({'status': 'success'})
         except Department.DoesNotExist:
