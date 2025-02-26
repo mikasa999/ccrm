@@ -510,3 +510,24 @@ def canvas_proceeding_data(request, lead_id):
             'follow_up_content': follow_up_content,
         })
     return JsonResponse({'results': data})
+
+
+# 线索详情页首页
+@required_privilege('super_admin', 'admin', 'user')
+def detail(request):
+    lead_code = request.GET.get('code')
+    leads_results = Leads.objects.get(lead_code=lead_code)
+    # 页面标题
+    title = {
+        "page_title": "线索详情",
+        "page_heading": "线索详情",
+        "modal_app_name": "leads",
+        "leads_results": leads_results,
+    }
+    return render(request, "detail_index.html", title)
+
+
+# 线索详情页数据获取
+@required_privilege('super_admin', 'admin', 'user')
+def detail_data(request, lead_code):
+    pass

@@ -36,5 +36,9 @@ urlpatterns = [
     path('canvas_proceeding_add/', views.canvas_proceeding_add, name='canvas_proceeding_add'),
     # 侧面板加载跟进信息
     path('canvas_proceeding_data/<int:lead_id>', views.canvas_proceeding_data, name='canvas_proceeding_data'),
+    # 线索详情页面卡片首页
+    path('detail/', views.detail, name='detail'),
+    # 线索详情页面卡片数据获取
+    path('detail_data/<str:lead_code>', views.detail_data, name='detail_data'),
 ]
 
