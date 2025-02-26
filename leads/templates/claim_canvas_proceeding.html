@@ -1,0 +1,57 @@
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd" aria-labelledby="offcanvasEndLabel">
+    <div class="offcanvas-header">
+        <h2 class="offcanvas-title" id="offcanvasEndLabel">线索详情</h2>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+        <div class="col-xl">
+            <div class="card">
+                <div class="card-body" id="canvas-leads-data">
+                    <!--这里异步加载-->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">跟进信息</h3>
+                    <ul class="steps steps-vertical" id="canvas-proceeding-data">
+                        <!--这里异步加载-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl mt-3">
+            <div class="card">
+                <form>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="form-label">选择跟进状态</div>
+                            <select class="form-select" id="canvas-proceeding-select">
+                                <option value="proceeding-error" selected disabled>请先选择跟进状态</option>
+                                {% for proceeding in proceeding %}
+                                <option value="{{ proceeding.proceeding_code }}">{{ proceeding.proceeding_name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">添加跟进</label>
+                            <textarea id="follow_up_content" class="form-control" name="example-textarea-input" rows="6"
+                                      placeholder="添加跟进信息..."></textarea>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-2 col-xl py-3">
+                            <a href="#" id="canvas-add-btn-proceeding" onclick="canvasProceedingAdd();"
+                               class="btn btn-primary w-100">
+                                添加跟进
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

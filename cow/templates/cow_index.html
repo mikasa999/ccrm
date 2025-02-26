@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ page_title }}</h3>
+        </div>
+        <!-- <div class="card-body border-bottom py-3">
+            <div class="d-flex">
+                <div class="col-6 col-sm-4 col-md-2 col-xl-1 py-3">
+                    <a href="#" class="btn btn-danger w-100">批量删除</a>
+                </div>
+            </div>
+        </div> -->
+        <div class="table-responsive">
+            <table class="table card-table table-vcenter text-nowrap datatable">
+                <thead>
+                    <tr>
+                        <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox"
+                                aria-label="Select all invoices"></th>
+                        <th>员工姓名</th>
+                        <th>用户名</th>
+                        <th>所属部门</th>
+                        <th>权限</th>
+                        <th>邮箱</th>
+                        <th>线索总量</th>
+                        <th>跟进数量</th>
+                        <th>客户数量</th>
+                        <th>回退公海</th>
+                        <th>成交数量</th>
+                        <th>首单成交总额</th>
+                        <th>成交总额</th>
+                        <th>密码</th>
+                        <th>修改</th>
+                        <th>删除</th>
+                    </tr>
+                </thead>
+                <tbody id="app-table-body">
+                     <!-- 这里的数据将通过AJAX异步加载 -->
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer d-flex align-items-center">
+            <p class="m-0 text-secondary">共查询到180条纪录</p>
+            <ul class="pagination m-0 ms-auto">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M15 6l-6 6l6 6"></path>
+                        </svg>上一页</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item">
+                    <a class="page-link"
+                        href="#">下一页<!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M9 6l6 6l-6 6"></path>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!--加载模态框-->
+{% block modal %}
+{% include modal_add_name %}
+{% include modal_update_name %}
+{% include modal_password_update_name %}
+{% endblock %}
+
+<!--加载自定义的js，主要是ajax相关的-->
+{% block app_js %}
+{% include modal_fetch_ajax_js_name %}
+{% endblock %}

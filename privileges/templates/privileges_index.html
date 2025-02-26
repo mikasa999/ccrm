@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">这里添加分配，批量删除等按钮</h3>
+        </div>
+<!--        <div class="card-body border-bottom py-3">-->
+<!--            <div class="d-flex">-->
+<!--                <div class="col-6 col-sm-4 col-md-2 col-xl-1 py-3">-->
+<!--                    <a href="#" class="btn btn-danger w-100">-->
+<!--                      批量删除-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="table-responsive">
+            <table class="table card-table table-vcenter text-nowrap datatable">
+                <thead>
+                    <tr>
+                        <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox"
+                                aria-label="Select all invoices"></th>
+                        <th>权限名称</th>
+                        <th>权限编码</th>
+                        <th>修改</th>
+                        <th>删除</th>
+                    </tr>
+                </thead>
+                <tbody id="app-table-body">
+                     <!-- 这里的数据将通过AJAX异步加载 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!--加载模态框-->
+{% block modal %}
+{% include 'privileges_modal_add.html' %}
+{% include 'privileges_modal_update.html' %}
+{% endblock %}
+
+<!--加载自定义的js，主要是ajax相关的-->
+{% block app_js %}
+{% include 'privileges_fetch_ajax_js.html' %}
+{% endblock %}

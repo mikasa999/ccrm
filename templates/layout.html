@@ -1,0 +1,103 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>{{ page_title }}-MiksaCrm</title>
+    <!-- CSS 文件 -->
+    {% include 'layout_css.html' %}
+
+</head>
+
+<body>
+<!-- 顶部js -->
+{% include 'layout_top_js.html' %}
+
+<div class="page">
+    <!-- 侧边栏 -->
+    {% include 'layout_slidebar.html' %}
+
+    <!-- 导航栏 -->
+    {% include 'layout_navbar.html' %}
+
+    <div class="page-wrapper">
+        <!-- 内容区 页头 -->
+        <div class="page-header d-print-none">
+            <div class="container-xl">
+                <div class="row g-2 align-items-center">
+                    <div class="col">
+                        <h2 class="page-title">
+                            {{ page_title }}
+                        </h2>
+                    </div>
+                    <!-- Page title actions -->
+                    <div class="col-auto ms-auto d-print-none">
+                        <div class="btn-list">
+                <span class="d-none d-sm-inline">
+                  <a href="#" class="btn">
+                    预留按钮
+                  </a>
+                </span>
+                            <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                               data-bs-target="#modal-add-app">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                     viewBox="0 0 24 24"
+                                     stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M12 5l0 14"/>
+                                    <path d="M5 12l14 0"/>
+                                </svg>
+                                新增{{ page_heading }}
+                            </a>
+                            <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                               data-bs-target="#modal-report" aria-label="Create new report">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                     viewBox="0 0 24 24"
+                                     stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M12 5l0 14"/>
+                                    <path d="M5 12l14 0"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 内容区 正文-->
+        <div class="page-body">
+            <div class="container-xl">
+                <div class="row row-deck row-cards">
+                    <!-- 模板 - 正文内容 -->
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+
+        <!-- 内容区 页脚-->
+        {% include 'layout_footer.html' %}
+
+    </div>
+</div>
+
+<!-- 模态框 -->
+{% block modal %}{% endblock %}
+
+<!-- 底部js文件-->
+{% include 'layout_bottom_js.html' %}
+
+<!--app中自定义的额外js，例如ajax相关-->
+{% block app_js %}{% endblock %}
+
+</body>
+
+</html>

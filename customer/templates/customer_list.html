@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Base info</h3>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="datagrid">
+            <div class="datagrid-item">
+                <div class="datagrid-title">客户名称</div>
+                <div class="datagrid-content">科医人有限公司</div>
+            </div>
+            <div class="datagrid-item">
+                <div class="datagrid-title">联系人</div>
+                <div class="datagrid-content">王总：13305568546</div>
+                <div class="datagrid-content">李总：13305568546</div>
+            </div>
+            <div class="datagrid-item">
+                <div class="datagrid-title">客户负责人</div>
+                <div class="datagrid-content">刘婉颖</div>
+            </div>
+            <div class="datagrid-item">
+                <div class="datagrid-title">客户复购次数</div>
+                <div class="datagrid-content">5次</div>
+            </div>
+            <div class="datagrid-item">
+                <div class="datagrid-title">最新跟进时间</div>
+                <div class="datagrid-content">2025-02-11</div>
+            </div>
+            <div class="datagrid-item">
+                <div class="datagrid-title">最新跟进纪录</div>
+                <div class="datagrid-content">
+                    复购了一部分的的皮肤修复敷料，一部分的医用修复敷料，生产周期30天。希望生产能快一点，因为客户似乎很着急的样子。
+                </div>
+            </div>
+            <div class="datagrid-item">
+                <div class="datagrid-title">客户来源</div>
+                <div class="datagrid-content">百度</div>
+                <div class="datagrid-content">2022-02-01</div>
+            </div>
+            <div class="datagrid-item">
+                <div class="datagrid-title">线索创建日期</div>
+                <div class="datagrid-content"><i class="ti ti-edit"></i><i style="color:red;" class="ti ti-archive"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <ul class="pagination ">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                             stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M15 6l-6 6l6 6"></path>
+                        </svg>
+                        上一页
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">
+                        下一页 <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                             stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M9 6l6 6l-6 6"></path>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

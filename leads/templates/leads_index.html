@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <!--            <div class="row g-2 align-items-center"> 这个align-items-center去掉才能让几个组件保持垂直剧中，莫名其妙-->
+            <div class="row g-2">
+                <div class="col-8">
+                    <form>
+                    <div class="input-group mb-2">
+                        <input id="leads_search_content" type="text" class="form-control" placeholder="输入手机号后四位查询">
+                        <button class="btn" type="button" onclick="loadAppData()" id="leads_search_btn">查找</button>
+                    </div>
+                    </form>
+                </div>
+                <div class="col-2">
+                    <a href="#" class="btn btn-outline-primary w-100" onclick="claimLeads()">
+                        认领
+                    </a>
+                </div>
+                <div class="col-2">
+                    <a href="#" class="btn btn-outline-primary w-100">
+                        分配
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table card-table table-vcenter text-nowrap datatable">
+                <thead>
+                <tr>
+                    <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox"
+                                           aria-label="Select all invoices" id="checkbox-main"></th>
+                    <th>联系人</th>
+                    <th>电话</th>
+                    <th>产品</th>
+                    <th>业务</th>
+                    <th>线索创建时间</th>
+                    <th>部门</th>
+                    <th>线索来源</th>
+                    <th>首次联络工具</th>
+                    <th>备注</th>
+                    <th>详细</th>
+                    <th>修改</th>
+                    <th>删除</th>
+                </tr>
+                </thead>
+                <tbody id="app-table-body">
+                <!-- 这里的数据将通过AJAX异步加载 -->
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer d-flex align-items-center">
+            <p class="m-0 text-secondary"><!--查询总纪录动态更新--></p>
+            <ul class="pagination m-0 ms-auto">
+                <!-- 分页导航栏将动态更新 -->
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!--加载模态框-->
+{% block modal %}
+{% include modal_add_name %}
+{% include modal_update_name %}
+{% endblock %}
+
+<!--加载自定义的js，主要是ajax相关的-->
+{% block app_js %}
+{% include modal_fetch_ajax_js_name %}
+{% endblock %}
