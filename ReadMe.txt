@@ -19,3 +19,6 @@
 日志：2025.02.23
     tabler.min.css文件中修改了如下，这个是canvas面板点击显示的宽度
     --tblr-offcanvas-width:400px => --tblr-offcanvas-width:800px
+
+from login.views import required_privilege
+@required_privilege('super_admin', 'admin', 'user')

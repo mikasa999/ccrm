@@ -15,6 +15,7 @@ import string
 from login.views import required_privilege
 import datetime
 from django.core.paginator import Paginator
+from django.contrib.sites.shortcuts import get_current_site
 
 
 # 一个随机生成20位字符串的函数
@@ -117,6 +118,10 @@ def get_data(request, leads_search_content=None):
     paginator = Paginator(results, 3)  # 每页显示 10 条记录
     page_obj = paginator.get_page(page_number)
 
+    # 获取绝对路径
+    current_site = get_current_site(request)
+    absolute_url = f"http://{current_site.domain}"
+
     data = []
     for result in page_obj:
         # 获取部门名称和权限名称
@@ -127,7 +132,7 @@ def get_data(request, leads_search_content=None):
         component_name = result.component_name.component_name if result.component_name else None
         cow_name = result.cow_name.cow_employee_name if result.cow_name else None
         proceeding_name = result.proceeding_name.proceeding_name if result.proceeding_name else None
-        consultation_content = f"{result.consultation_content[:50]}..." if result.consultation_content else '-'
+        consultation_content = f"{result.consultation_content[:20]}..." if result.consultation_content else '-'
         consultation_content_complete = result.consultation_content if result.consultation_content else '-'
         contact_phone = hide_middle_four_digits(result.contact_phone)
 
@@ -150,13 +155,14 @@ def get_data(request, leads_search_content=None):
             'follow_new_record': result.follow_new_record,
             'follow_new_time': result.follow_new_time,
             'lead_code': result.lead_code,
+            'absolute_url': absolute_url,
         })
 
     return JsonResponse({
         'results': data,
         'total_pages': paginator.num_pages,
         'current_page': page_obj.number,
-        'total_records': paginator.count
+        'total_records': paginator.count,
     })
 
 
@@ -527,8 +533,6 @@ def detail(request):
     # 先获取查询参数code，然后获得当天lead_code所在的结果集
     lead_code = request.GET.get('code')
     leads_result = Leads.objects.get(lead_code=lead_code)
-    # 先获取一下表中的cow_name=>username
-    cow_name = leads_result.cow_name.username
 
     if leads_result.lead_status == 1 and (privileges == 'admin' or privileges == 'user'):
         # 情况1，如果线索还未被领取过，状态1，且只有管理员和员工可以通过打开这个页面领取。
@@ -539,16 +543,17 @@ def detail(request):
         # 线索状态标记为2，表示已经被领取
         leads_result.lead_status = 2
         leads_result.save()
-    elif leads_result.lead_status == 2 and privileges == 'user' and cow_name != username:
+    if leads_result.lead_status == 2 and privileges == 'user':
         # 情况2，状态2说明已经领取过了，要么是user，要么是admin，这里只让user可以覆盖领取，admin则没有权限。
-        # 意思就是user可以覆盖admin，admin不能覆盖user
-        # 存入线索领取人名字，这里是外键Cow模型的username
-        leads_result.cow_name = Cow.objects.get(username=username)
-        # 插入领取线索的时间
-        leads_result.lead_allocation_time = datetime.datetime.now()
-        leads_result.save()
-    else:
-        pass
+        # 先获取一下表中的cow_name=>username
+        cow_name = leads_result.cow_name.username
+        if cow_name != username:
+            # 意思就是user可以覆盖admin，admin不能覆盖user
+            # 存入线索领取人名字，这里是外键Cow模型的username
+            leads_result.cow_name = Cow.objects.get(username=username)
+            # 插入领取线索的时间
+            leads_result.lead_allocation_time = datetime.datetime.now()
+            leads_result.save()
 
     # 页面标题
     title = {

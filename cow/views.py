@@ -26,6 +26,7 @@ title = {
 }
 
 
+@required_privilege('super_admin')
 def index(request):
     # 查询所有部门和权限
     departments = Department.objects.all()
@@ -38,6 +39,7 @@ def index(request):
     return render(request, "cow_index.html", context)
 
 
+@required_privilege('super_admin')
 # 获取数据库数据，返回json数据
 def get_data(request):
     results = Cow.objects.all()
@@ -66,6 +68,7 @@ def get_data(request):
     return JsonResponse({'results': data})
 
 
+@required_privilege('super_admin')
 # 新增
 def add_data(request):
     if request.method == 'POST':
@@ -107,6 +110,7 @@ def add_data(request):
 
 
 # 删除
+@required_privilege('super_admin')
 def delete_data(request, cow_id):
     if request.method == 'POST':
         try:
@@ -121,6 +125,7 @@ def delete_data(request, cow_id):
 
 
 # 修改员工普通信息
+@required_privilege('super_admin')
 def update_data(request, cow_id):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -150,6 +155,7 @@ def update_data(request, cow_id):
 
 
 # 修改员工密码信息
+@required_privilege('super_admin')
 def update_password_data(request, cow_id):
     if request.method == 'POST':
         data = json.loads(request.body)

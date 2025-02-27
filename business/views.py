@@ -3,6 +3,7 @@ from .models import Business
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from login.views import required_privilege
 
 
 """
@@ -20,11 +21,13 @@ title = {
 }
 
 
+@required_privilege('super_admin', 'admin', 'user')
 # 权限列表页
 def index(request):
     return render(request, "business_index.html", title)
 
 
+@required_privilege('super_admin', 'admin', 'user')
 # 获取数据库数据，返回json数据
 def get_data(request):
     results = Business.objects.all()
@@ -38,8 +41,8 @@ def get_data(request):
     return JsonResponse({'results': data})
 
 
+@required_privilege('super_admin', 'admin', 'user')
 # 新增：添加
-@csrf_exempt
 def add_data(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -53,8 +56,8 @@ def add_data(request):
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
 
+@required_privilege('super_admin', 'admin', 'user')
 # 新增：修改权限
-@csrf_exempt
 def update_data(request, arguments_id):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -73,8 +76,8 @@ def update_data(request, arguments_id):
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
 
+@required_privilege('super_admin', 'admin', 'user')
 # 新增：删除权限
-@csrf_exempt
 def delete_data(request, arguments_id):
     if request.method == 'POST':
         try:

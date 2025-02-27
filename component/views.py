@@ -3,6 +3,7 @@ from .models import Component
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from login.views import required_privilege
 
 
 """
@@ -21,11 +22,13 @@ title = {
 
 
 # 权限列表页
+@required_privilege('super_admin', 'admin', 'user')
 def index(request):
     return render(request, "component_index.html", title)
 
 
 # 获取数据库数据，返回json数据
+@required_privilege('super_admin', 'admin', 'user')
 def get_data(request):
     results = Component.objects.all()
     data = []
@@ -39,7 +42,7 @@ def get_data(request):
 
 
 # 新增：添加
-@csrf_exempt
+@required_privilege('super_admin', 'admin', 'user')
 def add_data(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -54,7 +57,7 @@ def add_data(request):
 
 
 # 新增：修改权限
-@csrf_exempt
+@required_privilege('super_admin', 'admin', 'user')
 def update_data(request, arguments_id):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -74,7 +77,7 @@ def update_data(request, arguments_id):
 
 
 # 新增：删除权限
-@csrf_exempt
+@required_privilege('super_admin', 'admin', 'user')
 def delete_data(request, arguments_id):
     if request.method == 'POST':
         try:

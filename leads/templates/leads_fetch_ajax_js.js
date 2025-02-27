@@ -37,7 +37,7 @@
                         <td>${result.component_name}</td>
                         <td>${result.consultation_content}</td>
                         <td>
-                            <a  id="copy-info" href="#" data-copy-info="
+                            <a class="copy-info" href="#" data-copy-info="
 客户姓名：${result.contact_person}
 客户电话：${result.contact_phone}
 备注：${result.consultation_content_complete}
@@ -45,7 +45,7 @@
 线索来源：${result.channel_name}
 咨询组件：${result.component_name}
 线索领取链接：
-http://127.0.0.1:8000{% url 'leads:detail' %}?code=${result.lead_code}
+${result.absolute_url}{% url 'leads:detail' %}?code=${result.lead_code}
                             ">
                                 <i class="fa-solid fa-share-from-square"></i>
                             </a>
@@ -136,25 +136,58 @@ http://127.0.0.1:8000{% url 'leads:detail' %}?code=${result.lead_code}
     // 页面加载完成后执行异步加载
     window.addEventListener('load', loadAppData);
 
+    // 复制客户信息的点击事件监测函数
+    document.addEventListener('DOMContentLoaded', function () {
+        // 使用事件委托处理复制操作
+        document.addEventListener('click', async function (event) {
+            const copyLink = event.target.closest('.copy-info');
+            if (copyLink) {
+                event.preventDefault();
+                const textToCopy = copyLink.getAttribute('data-copy-info').trim();
 
-    // Clipboard API 封装的复制函数，传入data-* 复制这个属性的值到剪贴板
-    // 在页面加载完成后绑定事件 改动一下，冲突了
-    document.addEventListener('click', function (event) {
-        if (event.target.closest('a[data-copy-info]')) {
-            event.preventDefault();
-            const anchor = event.target.closest('a');
-            const textToCopy = anchor.getAttribute('data-copy-info');
-            navigator.clipboard.writeText(textToCopy)
-                .then(() => {
-                    alert('内容已复制: ' + textToCopy);
-                })
-                .catch((err) => {
+                try {
+                    if ('clipboard' in navigator) {
+                        await navigator.clipboard.writeText(textToCopy);
+                        showAlert('success');
+                    } else {
+                        // 传统复制方法
+                        const textarea = document.createElement('textarea');
+                        textarea.value = textToCopy;
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        const successful = document.execCommand('copy');
+                        document.body.removeChild(textarea);
+                        if (successful) {
+                            showAlert('success');
+                        } else {
+                            throw new Error('传统复制方法失败');
+                        }
+                    }
+                } catch (err) {
                     console.error('复制失败: ', err);
-                    alert('复制失败，请重试');
-                });
+                    showAlert('warning');
+                }
+            }
+        });
+
+        function showAlert(type) {
+            let alertHtml;
+            if (type === 'success') {
+                alertHtml = '<div class="alert alert-success" role="alert">信息复制成功，去粘贴吧！</div>';
+            } else {
+                alertHtml = '<div class="alert alert-warning" role="alert">复制失败，请检查代码！</div>';
+            }
+            const alertElement = document.createElement('div');
+            alertElement.innerHTML = alertHtml;
+            document.body.appendChild(alertElement.firstChild);
+            setTimeout(() => {
+                const alertToRemove = document.querySelector(`.alert-${type}`);
+                if (alertToRemove) {
+                    alertToRemove.remove();
+                }
+            }, 1500);
         }
     });
-
 
     // 添加线索
     function addAppData() {
