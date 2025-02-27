@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -86,7 +86,7 @@ def get_data(request, leads_search_content=None):
     department_code = request.session.get('department_code')
 
     # 基础查询集，筛选 lead_status=1
-    base_query = Leads.objects.filter(lead_status=1)
+    base_query = Leads.objects.filter(lead_status=1).order_by('-id')
 
     if privileges:
         if privileges == 'super_admin':
@@ -127,7 +127,8 @@ def get_data(request, leads_search_content=None):
         component_name = result.component_name.component_name if result.component_name else None
         cow_name = result.cow_name.cow_employee_name if result.cow_name else None
         proceeding_name = result.proceeding_name.proceeding_name if result.proceeding_name else None
-        consultation_content = f"{result.consultation_content[:10]}..." if result.consultation_content else None
+        consultation_content = f"{result.consultation_content[:50]}..." if result.consultation_content else '-'
+        consultation_content_complete = result.consultation_content if result.consultation_content else '-'
         contact_phone = hide_middle_four_digits(result.contact_phone)
 
         data.append({
@@ -143,10 +144,12 @@ def get_data(request, leads_search_content=None):
             'channel_name': channel_name,
             'component_name': component_name,
             'consultation_content': consultation_content,
+            'consultation_content_complete': consultation_content_complete,
             'cow_name': cow_name,
             'proceeding_name': proceeding_name,
             'follow_new_record': result.follow_new_record,
             'follow_new_time': result.follow_new_time,
+            'lead_code': result.lead_code,
         })
 
     return JsonResponse({
@@ -253,7 +256,7 @@ def claim_get_data(request, leads_search_content=None):
     username = request.session.get('username')
 
     # 基础查询集，筛选 lead_status=2 认领的线索
-    base_query = Leads.objects.filter(lead_status=2)
+    base_query = Leads.objects.filter(lead_status=2).order_by('-id')
 
     if privileges:
         if privileges == 'super_admin':
@@ -515,19 +518,43 @@ def canvas_proceeding_data(request, lead_id):
 # 线索详情页首页
 @required_privilege('super_admin', 'admin', 'user')
 def detail(request):
+    username = request.session.get('username')
+    privileges = request.session.get('privileges')
+
+    if not username:
+        return redirect('login:index')
+
+    # 先获取查询参数code，然后获得当天lead_code所在的结果集
     lead_code = request.GET.get('code')
-    leads_results = Leads.objects.get(lead_code=lead_code)
+    leads_result = Leads.objects.get(lead_code=lead_code)
+    # 先获取一下表中的cow_name=>username
+    cow_name = leads_result.cow_name.username
+
+    if leads_result.lead_status == 1 and (privileges == 'admin' or privileges == 'user'):
+        # 情况1，如果线索还未被领取过，状态1，且只有管理员和员工可以通过打开这个页面领取。
+        # 存入线索领取人名字，这里是外键Cow模型的username
+        leads_result.cow_name = Cow.objects.get(username=username)
+        # 插入领取线索的时间
+        leads_result.lead_allocation_time = datetime.datetime.now()
+        # 线索状态标记为2，表示已经被领取
+        leads_result.lead_status = 2
+        leads_result.save()
+    elif leads_result.lead_status == 2 and privileges == 'user' and cow_name != username:
+        # 情况2，状态2说明已经领取过了，要么是user，要么是admin，这里只让user可以覆盖领取，admin则没有权限。
+        # 意思就是user可以覆盖admin，admin不能覆盖user
+        # 存入线索领取人名字，这里是外键Cow模型的username
+        leads_result.cow_name = Cow.objects.get(username=username)
+        # 插入领取线索的时间
+        leads_result.lead_allocation_time = datetime.datetime.now()
+        leads_result.save()
+    else:
+        pass
+
     # 页面标题
     title = {
         "page_title": "线索详情",
         "page_heading": "线索详情",
         "modal_app_name": "leads",
-        "leads_results": leads_results,
+        "leads_result": leads_result,
     }
     return render(request, "detail_index.html", title)
-
-
-# 线索详情页数据获取
-@required_privilege('super_admin', 'admin', 'user')
-def detail_data(request, lead_code):
-    pass

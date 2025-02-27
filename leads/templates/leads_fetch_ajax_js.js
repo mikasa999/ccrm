@@ -25,67 +25,42 @@
                 tableBody.innerHTML = ''; // 清空表格内容
                 data.results.forEach(result => {
                     const row = document.createElement('tr');
-                    const createCell = (text) => {
-                        const cell = document.createElement('td');
-                        cell.textContent = text;
-                        return cell;
-                    };
-
-                    const checkboxCell = document.createElement('td');
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.className = 'form-check-input m-0 align-middle';
-                    checkbox.ariaLabel = 'Select invoice';
-                    checkbox.id = `checkbox-${result.lead_id}`;
-                    checkbox.value = result.lead_id;
-                    checkboxCell.appendChild(checkbox);
-                    row.appendChild(checkboxCell);
-
-                    row.appendChild(createCell(result.contact_person));
-                    row.appendChild(createCell(result.contact_phone));
-                    row.appendChild(createCell(result.product_name));
-                    row.appendChild(createCell(result.business_name));
-                    row.appendChild(createCell(result.lead_creation_time));
-                    row.appendChild(createCell(result.department_name));
-                    row.appendChild(createCell(result.channel_name));
-                    row.appendChild(createCell(result.component_name));
-                    row.appendChild(createCell(result.consultation_content));
-
-                    const copyCell = document.createElement('td');
-                    const copyLink = document.createElement('a');
-                    copyLink.href = '#';
-                    copyLink.dataset.bsToggle = 'modal';
-                    copyLink.dataset.bsTarget = '#modal-update-app';
-                    copyLink.onclick = () => prepareUpdateModal(result.lead_id, result.appName_name, result.appName_code);
-                    const copyIcon = document.createElement('i');
-                    copyIcon.className = 'ti ti-clipboard-copy';
-                    copyLink.appendChild(copyIcon);
-                    copyCell.appendChild(copyLink);
-                    row.appendChild(copyCell);
-
-                    const editCell = document.createElement('td');
-                    const editLink = document.createElement('a');
-                    editLink.href = '#';
-                    editLink.dataset.bsToggle = 'modal';
-                    editLink.dataset.bsTarget = '#modal-update-app';
-                    editLink.onclick = () => prepareUpdateModal(result.lead_id, result.appName_name, result.appName_code);
-                    const editIcon = document.createElement('i');
-                    editIcon.className = 'ti ti-edit';
-                    editLink.appendChild(editIcon);
-                    editCell.appendChild(editLink);
-                    row.appendChild(editCell);
-
-                    const deleteCell = document.createElement('td');
-                    const deleteLink = document.createElement('a');
-                    deleteLink.href = '#';
-                    deleteLink.onclick = () => deleteAppData(result.lead_id);
-                    const deleteIcon = document.createElement('i');
-                    deleteIcon.style.color = 'red';
-                    deleteIcon.className = 'ti ti-archive';
-                    deleteLink.appendChild(deleteIcon);
-                    deleteCell.appendChild(deleteLink);
-                    row.appendChild(deleteCell);
-
+                    row.innerHTML = `
+                        <td><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" value="${result.lead_id}"></td>
+                        <td>${result.contact_person}</td>
+                        <td>${result.contact_phone}</td>
+                        <td>${result.product_name}</td>
+                        <td>${result.business_name}</td>
+                        <td>${result.lead_creation_time}</td>
+                        <td>${result.department_name}</td>
+                        <td>${result.channel_name}</td>
+                        <td>${result.component_name}</td>
+                        <td>${result.consultation_content}</td>
+                        <td>
+                            <a  id="copy-info" href="#" data-copy-info="
+客户姓名：${result.contact_person}
+客户电话：${result.contact_phone}
+备注：${result.consultation_content_complete}
+业务类型：${result.business_name}
+线索来源：${result.channel_name}
+咨询组件：${result.component_name}
+线索领取链接：
+http://127.0.0.1:8000{% url 'leads:detail' %}?code=${result.lead_code}
+                            ">
+                                <i class="fa-solid fa-share-from-square"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal-update-app">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" data-copy-info="1" onclick=deleteAppData(${result.lead_id})>
+                                <i class="fa-solid fa-trash" style="color: red;"></i>
+                            </a>
+                        </td>
+                    `;
                     tableBody.appendChild(row);
                 });
 
@@ -153,13 +128,32 @@
                 // 更新记录总数
                 const recordCount = document.querySelector('.card-footer p');
                 recordCount.textContent = `共查询到${data.total_records}条纪录`;
-            })
+          })
           .catch(error => console.error('Error:', error));
     }
 
 
     // 页面加载完成后执行异步加载
     window.addEventListener('load', loadAppData);
+
+
+    // Clipboard API 封装的复制函数，传入data-* 复制这个属性的值到剪贴板
+    // 在页面加载完成后绑定事件 改动一下，冲突了
+    document.addEventListener('click', function (event) {
+        if (event.target.closest('a[data-copy-info]')) {
+            event.preventDefault();
+            const anchor = event.target.closest('a');
+            const textToCopy = anchor.getAttribute('data-copy-info');
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    alert('内容已复制: ' + textToCopy);
+                })
+                .catch((err) => {
+                    console.error('复制失败: ', err);
+                    alert('复制失败，请重试');
+                });
+        }
+    });
 
 
     // 添加线索
